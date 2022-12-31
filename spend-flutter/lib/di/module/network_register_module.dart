@@ -1,11 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:spendflutter/Service/api_service.dart';
+import 'package:spendflutter/Service/share_pref_service.dart';
 
 @module
 abstract class NetworkRegisterModule {
   String getContentApiBaseUrl() {
-    return 'http://128.199.227.153:1345/';
+    return 'http://192.168.0.119:8080';
+  }
+
+  ApiService getApiService (Dio dio, String baseUrl) {
+    return ApiService(dio, baseUrl);
+  }
+
+  @singleton
+  SharePrefService getSharePrefService(SharedPreferences pref) {
+    return SharePrefService(pref);
   }
 
   Dio getDio(
