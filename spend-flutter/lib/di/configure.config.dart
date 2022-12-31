@@ -14,7 +14,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i5;
 import '../service/api_service.dart' as _i7;
 import '../service/share_pref_service.dart' as _i6;
 import 'module/network_register_module.dart' as _i8;
-import 'module/third_party_helper_register_module.dart'
+import 'module/third_party_register_module.dart'
     as _i9; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
@@ -38,7 +38,7 @@ Future<_i1.GetIt> $initGetIt(
     () => thirdPartyHelperRegisterModule.getPreferenceInstance(),
     preResolve: true,
   );
-  gh.factory<String>(() => networkRegisterModule.getApiBaseUrl());
+  gh.factory<String>(() => networkRegisterModule.getContentApiBaseUrl());
   gh.factory<_i3.Dio>(() => networkRegisterModule.getDio(
         get<_i3.BaseOptions>(),
         get<_i4.PrettyDioLogger>(),

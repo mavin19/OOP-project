@@ -13,9 +13,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final ApiService _apiService = getIt.get();
 
-  final SharePrefService sharePrefService = getIt.get();
+  @override
+  void initState() {
+    // final ApiService _apiService = getIt.get();
+    final SharePrefService sharePrefService = getIt.get();
+    print("V ${sharePrefService}");
+    super.initState();
+  }
 
   // Future<ProjectListReq> getProjectList() {
   //   final caller = _apiService.getProject();
@@ -37,72 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<ProjectListReq>(
-        // future: getProjectList(),
-        builder:
-            (BuildContext context, AsyncSnapshot<ProjectListReq> snapShot) {
-          if (snapShot.connectionState == ConnectionState.done) {
-            // var projects = getProjectListByUsername(
-            //     snapShot.data!.data, sharePrefService.getUsername());
-            print(sharePrefService.getUsername());
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                    vertical: 24.0,
-                  ),
-                  child: Text(
-                    "Project",
-                    style: TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                // Expanded(
-                //   child: RefreshIndicator(
-                //     onRefresh: () async {
-                //       // final res = await getProjectList();
-                //       // projects = getProjectListByUsername(
-                //       //     res.data, sharePrefService.getUsername());
-                //       // setState(() {});
-                //     },
-                //     child: ListView.builder(
-                //       itemCount: projects.length,
-                //       itemBuilder: (_, index) {
-                //         final project = projects[index];
-                //         return Padding(
-                //           padding: const EdgeInsets.all(8.0),
-                //           child: Column(
-                //             children: [
-                //
-                //             ],
-                //           )
-                //         );
-                //       },
-                //     ),
-                //   ),
-                // )
-              ],
-            );
-          } else if (snapShot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else {
-            return Center(child: Text("error"));
-          }
-        },
-      ),
-      floatingActionButton: sharePrefService.getRole() == "manager"
-          ? FloatingActionButton(
-        onPressed: () {
-          // Add your onPressed code here!
-        },
-        backgroundColor: kPrimaryColor,
-        child: const Icon(Icons.add),
-      )
-          : null,
+      body: Text('Hello')
     );
   }
 }
