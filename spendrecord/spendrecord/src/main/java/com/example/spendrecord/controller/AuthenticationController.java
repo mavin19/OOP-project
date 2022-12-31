@@ -38,7 +38,6 @@ public class AuthenticationController {
 
     @PostMapping(value = "/v1/auth/register")
     ResponseEntity<User> registerController(@RequestBody RegisterReq req) {
-        System.out.println("GOT CALLED ");
         User user = userRepo.findByEmail(req.getEmail());
         if (user != null) {
             // user already exist
