@@ -13,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart' as _i5;
 
 import '../service/api_service.dart' as _i7;
 import '../service/share_pref_service.dart' as _i6;
-import 'module/network.dart' as _i8;
+import 'module/network_module.dart' as _i8;
 import 'module/third_party_helper_register_module.dart'
     as _i9; // ignore_for_file: unnecessary_lambdas
 
@@ -29,43 +29,29 @@ Future<_i1.GetIt> $initGetIt(
     environment,
     environmentFilter,
   );
-  final webApiRegisterModule = _$WebApiRegisterModule();
+  final networkModule = _$NetworkModule();
   final thirdPartyHelperRegisterModule = _$ThirdPartyHelperRegisterModule();
-  gh.factory<_i3.BaseOptions>(() => webApiRegisterModule.getBaseOption());
-  gh.factory<_i4.PrettyDioLogger>(
-      () => webApiRegisterModule.getLoggerInterceptor());
+  gh.factory<_i3.BaseOptions>(() => networkModule.getBaseOption());
+  gh.factory<_i4.PrettyDioLogger>(() => networkModule.getLoggerInterceptor());
   await gh.factoryAsync<_i5.SharedPreferences>(
     () => thirdPartyHelperRegisterModule.getPreferenceInstance(),
     preResolve: true,
   );
-  gh.factory<String>(
-    () => webApiRegisterModule.getContentApiBaseUrl(),
-    instanceName: 'apiBaseUrl',
-  );
-  gh.factory<String>(
-    () => webApiRegisterModule.getContentApiAccessToken(get<dynamic>()),
-    instanceName: 'apiAccessToken',
-  );
-  gh.factory<_i3.Dio>(() => webApiRegisterModule.getDio(
+  gh.factory<String>(() => networkModule.getApiBaseUrl());
+  gh.factory<_i3.Dio>(() => networkModule.getDio(
         get<_i3.BaseOptions>(),
         get<_i4.PrettyDioLogger>(),
       ));
   gh.factory<_i6.SharePrefService>(
       () => _i6.SharePrefService(get<_i5.SharedPreferences>()));
-  gh.factoryParam<_i7.ApiService, bool?, dynamic>((
-    isAnonymous,
-    _,
-  ) =>
-      _i7.ApiService(
+  gh.factory<_i7.ApiService>(() => _i7.ApiService(
         get<_i3.Dio>(),
-        baseUrl: get<String>(instanceName: 'apiBaseUrl'),
-        accessToken: get<String>(instanceName: 'apiAccessToken'),
-        isAnonymous: isAnonymous,
+        baseUrl: get<String>(),
       ));
   return get;
 }
 
-class _$WebApiRegisterModule extends _i8.WebApiRegisterModule {}
+class _$NetworkModule extends _i8.NetworkModule {}
 
 class _$ThirdPartyHelperRegisterModule
     extends _i9.ThirdPartyHelperRegisterModule {}
