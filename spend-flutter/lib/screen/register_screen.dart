@@ -4,12 +4,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:spendflutter/model/register_model_req.dart';
 import 'package:spendflutter/screen/home_screen.dart';
 
-import '../Components/Constant.dart';
-import '../Components/PrimaryButton.dart';
-import '../Service/api_call_handler.dart';
-import '../Service/api_service.dart';
-import '../Service/error_throwable.dart';
-import '../Service/share_pref_service.dart';
+import '../components/Constant.dart';
+import '../components/PrimaryButton.dart';
+import '../service/api_call_handler.dart';
+import '../service/api_service.dart';
+import '../service/error_throwable.dart';
+import '../service/share_pref_service.dart';
 import '../components/PasswordInputField.dart';
 import '../components/RoundInput.dart';
 import '../di/configure.dart';
@@ -34,12 +34,12 @@ class RegisterScreen extends StatelessWidget {
     final callHelper = ApiCallHandler(caller);
     try {
       final response = await callHelper.execute();
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-      );
+      // Navigator.pushReplacement(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) => HomeScreen(getIt: getIt),
+      //   ),
+      // );
     } catch (e) {
       if (e is ErrorThrowable) {
         debugPrint("ERROR ${e.message}");

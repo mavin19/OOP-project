@@ -7,7 +7,8 @@ import 'package:spendflutter/service/api_service.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDependencies();
-  runApp(const MyApp());
+
+  runApp( MyApp());
 }
 
 class MyApp extends StatefulWidget {
@@ -22,11 +23,12 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      initialRoute: '/',
-      routes: {
-        '/': (context) => HomeScreen(),
-        '/login': (context) => LoginScreen(),
-      },
+      // initialRoute: '/',
+      home: HomeScreen(),
+      // routes: {
+      //   '/': (context) => HomeScreen(),
+      //   '/login': (context) => LoginScreen(),
+      // },
     );
   }
 }

@@ -11,14 +11,13 @@ abstract class NetworkRegisterModule {
     return 'http://192.168.0.119:8080';
   }
 
-  ApiService getApiService (Dio dio, String baseUrl) {
-    return ApiService(dio, baseUrl);
-  }
-
-  @singleton
-  SharePrefService getSharePrefService(SharedPreferences pref) {
-    return SharePrefService(pref);
-  }
+  // ApiService getApiService (Dio dio, String baseUrl) {
+  //   return ApiService(dio, baseUrl);
+  // }
+  //
+  // SharePrefService getSharePrefService(SharedPreferences pref) {
+  //   return SharePrefService(pref);
+  // }
 
   Dio getDio(
       BaseOptions options,

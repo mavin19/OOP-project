@@ -1,15 +1,18 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:spendflutter/Service/api_service.dart';
+import 'package:spendflutter/di/configure.dart';
 import 'package:spendflutter/screen/login_screen.dart';
+import 'package:spendflutter/service/api_service.dart';
 
-import '../Service/share_pref_service.dart';
+import '../service/share_pref_service.dart';
 import '../components/Constant.dart';
-import '../di/configure.dart';
 
 class HomeScreen extends StatefulWidget {
+
+  const HomeScreen({super.key});
+
   _HomeScreen createState() => _HomeScreen();
 }
 
@@ -21,8 +24,11 @@ class _HomeScreen extends State<HomeScreen> {
     super.initState();
   }
   void test() async {
-    final SharePrefService sharePrefService = getIt.get();
-    print("SHARE $sharePrefService");
+    print("base url ${ getIt.get<String>()}");
+    final ApiService sharePrefService = getIt.get();
+    print("API $sharePrefService");
+    final SharePrefService v = getIt.get();
+    print("SH $v ");
   }
 
   @override
@@ -44,7 +50,12 @@ class _HomeScreen extends State<HomeScreen> {
         actions: <Widget>[
           new IconButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/login');
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                ),
+              );
             },
             icon: Icon(
               Icons.account_circle_rounded,

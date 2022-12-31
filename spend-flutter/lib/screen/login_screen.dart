@@ -1,47 +1,46 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:spendflutter/helper/api_helper.dart';
 import 'package:spendflutter/model/login_model_req.dart';
-import 'package:spendflutter/screen/home_screen.dart';
 
-import '../Components/Constant.dart';
-import '../Components/PrimaryButton.dart';
-import '../Service/api_service.dart';
-import '../Service/share_pref_service.dart';
+import '../components/Constant.dart';
+import '../components/PrimaryButton.dart';
+import '../service/api_service.dart';
 import '../components/PasswordInputField.dart';
 import '../components/RoundInput.dart';
-import '../di/configure.dart';
 import '../service/api_call_handler.dart';
 import '../service/error_throwable.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  // final ApiService _apiService = getIt.get();
-  final SharePrefService sharePrefService = getIt.get();
+  // final SharePrefService sharePrefService = getIt.get();
 
-  // void login(context) async {
-  //   final loginReq = LoginModelReq(
-  //     emailController.text,
-  //     passwordController.text,
-  //   );
-  //   final caller = _apiService.login(loginReq);
-  //   final callHelper = ApiCallHandler(caller);
-  //   try {
-  //     final response = await callHelper.execute();
-  //     Navigator.pop(context);
-  //   } catch (e) {
-  //     if (e is ErrorThrowable) {
-  //       final snackBar = SnackBar(
-  //         content: Text("System error"),
-  //         backgroundColor: Colors.red,
-  //       );
-  //
-  //       ScaffoldMessenger.of(context).showSnackBar(snackBar);
-  //       debugPrint("ERROR ${e.message}");
-  //     }
-  //   }
-  // }
+  void login(context) async {
+    final ApiService _apiService = ApiHelper.getApiService();
+
+    final loginReq = LoginModelReq(
+      emailController.text,
+      passwordController.text,
+    );
+    final caller = _apiService.login(loginReq);
+    final callHelper = ApiCallHandler(caller);
+    try {
+      final response = await callHelper.execute();
+      Navigator.pop(context);
+    } catch (e) {
+      if (e is ErrorThrowable) {
+        final snackBar = SnackBar(
+          content: Text("System error"),
+          backgroundColor: Colors.red,
+        );
+
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        debugPrint("ERROR ${e.message}");
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,7 +119,7 @@ class LoginScreen extends StatelessWidget {
                     PrimaryButton(
                       text: 'Sign in',
                       press: () {
-                        // login(context);
+                        login(context);
                       },
                       color: kPrimaryColor,
                       textColor: inputBackgroundColor,

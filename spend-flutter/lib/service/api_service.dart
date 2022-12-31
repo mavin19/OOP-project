@@ -9,10 +9,10 @@ import 'package:spendflutter/model/user_model.dart';
 
 part 'api_service.g.dart';
 
-// @Injectable()
+@injectable
 @RestApi()
 abstract class ApiService {
-  // @factoryMethod
+  @factoryMethod
   factory ApiService(Dio dio, String baseUrl) {
     return _ApiService(dio, baseUrl: baseUrl);
   }
