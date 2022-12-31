@@ -15,6 +15,7 @@ import '../service/error_throwable.dart';
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   // final SharePrefService sharePrefService = getIt.get();
 
   void login(context) async {
@@ -64,14 +65,14 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
-                child: SvgPicture.asset("asset/image/register_logo.svg"),
-              ),
-              SizedBox(
-                height: 25,
-              ),
-              Center(
                 child: Column(
                   children: [
+                    Center(
+                      child: SvgPicture.asset("asset/image/register_logo.svg"),
+                    ),
+                    SizedBox(
+                      height: 25,
+                    ),
                     Center(
                       child: Text(
                         "Sign In",

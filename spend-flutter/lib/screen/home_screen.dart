@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:spendflutter/di/configure.dart';
+import 'package:spendflutter/screen/get_start_screen.dart';
 import 'package:spendflutter/screen/login_screen.dart';
 import 'package:spendflutter/service/api_service.dart';
 
@@ -39,7 +40,7 @@ class _HomeScreen extends State<HomeScreen> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: Text(
-          "Report App",
+          "Spend Record App",
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -53,7 +54,7 @@ class _HomeScreen extends State<HomeScreen> {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => LoginScreen(),
+                  builder: (context) => GetStart(),
                 ),
               );
             },
