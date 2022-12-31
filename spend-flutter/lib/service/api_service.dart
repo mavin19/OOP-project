@@ -29,4 +29,5 @@ abstract class ApiService {
 
   @GET("/v1/spend/{userId}")
   Future<List<SpendRecordModel>> getAllSpend(@Path("userId") String id);
+
 }

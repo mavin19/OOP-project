@@ -15,6 +15,7 @@ class ErrorThrowable implements Exception {
 
   @override
   String toString() {
+
     return 'Code : $code, Message : $message';
   }
 }

@@ -8,8 +8,8 @@ part of 'spend_record_model.dart';
 
 SpendRecordModel _$SpendRecordModelFromJson(Map<String, dynamic> json) =>
     SpendRecordModel(
-      json['id'] as String,
+      json['id'] as int,
       json['item'] as String,
-      json['cost'] as String,
-      DateTime.parse(json['created_at'] as String),
+      (json['cost'] as num).toDouble(),
+      DateTime.parse(json['createdAt'] as String),
     );

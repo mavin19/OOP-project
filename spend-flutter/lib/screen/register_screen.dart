@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -26,23 +28,40 @@ class RegisterScreen extends StatelessWidget {
   void register(context) async {
     debugPrint("rolecontroller: ${roleController.text}");
     final registerReq = RegisterModelReq(
-          usernameController.text,
-          emailController.text,
-          passwordController.text,
+      usernameController.text,
+      emailController.text,
+      passwordController.text,
     );
     final caller = _apiService.register(registerReq);
     final callHelper = ApiCallHandler(caller);
     try {
       final response = await callHelper.execute();
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(
-      //     builder: (context) => HomeScreen(getIt: getIt),
-      //   ),
-      // );
+      sharePrefService.setId(response.id.toString());
+      sharePrefService.setUsername(response.name);
+      sharePrefService.setEmail(response.email);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => HomeScreen(),
+        ),
+      );
     } catch (e) {
       if (e is ErrorThrowable) {
-        debugPrint("ERROR ${e.message}");
+        if (e.code == HttpStatus.forbidden) {
+          final snackBar = SnackBar(
+            content: Text("Email already registered"),
+            backgroundColor: Colors.red,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          debugPrint("ERROR ${e.message}");
+        } else {
+          final snackBar = SnackBar(
+            content: Text("System Error"),
+            backgroundColor: Colors.red,
+          );
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          debugPrint("ERROR ${e.message}");
+        }
       }
     }
   }

@@ -1,65 +1,43 @@
-import 'dart:io';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:spendflutter/helper/api_helper.dart';
-import 'package:spendflutter/model/login_model_req.dart';
+import 'package:spendflutter/model/spend_record_model_req.dart';
 import 'package:spendflutter/screen/home_screen.dart';
 
 import '../components/Constant.dart';
 import '../components/PrimaryButton.dart';
-import '../di/configure.dart';
-import '../service/api_service.dart';
-import '../components/PasswordInputField.dart';
 import '../components/RoundInput.dart';
+import '../di/configure.dart';
 import '../service/api_call_handler.dart';
+import '../service/api_service.dart';
 import '../service/error_throwable.dart';
 import '../service/share_pref_service.dart';
 
-class LoginScreen extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class CreateRecord extends StatefulWidget {
+  _CreateRecord createState() => _CreateRecord();
+}
 
+class _CreateRecord extends State<CreateRecord> {
+  final TextEditingController itemController = TextEditingController();
+  final TextEditingController priceController = TextEditingController();
+  final ApiService _apiService = getIt.get();
   final SharePrefService sharePrefService = getIt.get();
 
-  void login(context) async {
-    final ApiService _apiService = ApiHelper.getApiService();
-
-    final loginReq = LoginModelReq(
-      emailController.text,
-      passwordController.text,
+  void createRecord(context) async {
+    final createRecord = SpendRecordModelReq(
+      itemController.text,
+      priceController.text,
     );
-    final caller = _apiService.login(loginReq);
+
+    final caller =
+        _apiService.createSpend(sharePrefService.getId(), createRecord);
     final callHelper = ApiCallHandler(caller);
     try {
       final response = await callHelper.execute();
-      sharePrefService.setId(response.id.toString());
-      sharePrefService.setUsername(response.name);
-      sharePrefService.setEmail(response.email);
       Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-      );
+          context, MaterialPageRoute(builder: (context) => HomeScreen()));
     } catch (e) {
       if (e is ErrorThrowable) {
-        if (e.code == HttpStatus.forbidden) {
-          final snackBar = SnackBar(
-            content: Text("Invalid credential"),
-            backgroundColor: Colors.red,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          debugPrint("ERROR ${e.message}");
-        } else {
-          final snackBar = SnackBar(
-            content: Text("System Error"),
-            backgroundColor: Colors.red,
-          );
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-          debugPrint("ERROR ${e.message}");
-        }
+        debugPrint("ERROR ${e.message}");
       }
     }
   }
@@ -72,7 +50,7 @@ class LoginScreen extends StatelessWidget {
           color: Colors.black,
         ),
         title: Text(
-          "Sign in",
+          "Create Project",
           style: TextStyle(
             color: Colors.black,
           ),
@@ -86,17 +64,17 @@ class LoginScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Center(
+                child: SvgPicture.asset("asset/image/create_project_icon.svg"),
+              ),
+              SizedBox(
+                height: 25,
+              ),
+              Center(
                 child: Column(
                   children: [
                     Center(
-                      child: SvgPicture.asset("asset/image/register_logo.svg"),
-                    ),
-                    SizedBox(
-                      height: 25,
-                    ),
-                    Center(
                       child: Text(
-                        "Sign In",
+                        "Create Record",
                         style: TextStyle(
                           fontFamily: 'Roboto',
                           fontSize: 24,
@@ -109,7 +87,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Center(
                       child: Text(
-                        "Enter your email and password",
+                        "Create your record to sum your total spend.",
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'Roboto',
@@ -123,25 +101,26 @@ class LoginScreen extends StatelessWidget {
                       height: 25,
                     ),
                     RoundInput(
-                      hintText: "Enter your email",
-                      controller: emailController,
+                      hintText: "Items",
+                      controller: itemController,
                       onChanged: (val) {},
                       type: TextInputType.text,
                       color: Colors.black,
                     ),
-                    PasswordInputField(
-                      hideText: "Password",
+                    RoundInput(
+                      hintText: "Price",
+                      controller: priceController,
                       onChanged: (val) {},
-                      onPress: () {},
-                      controller: passwordController,
+                      type: TextInputType.number,
+                      color: Colors.black,
                     ),
                     SizedBox(
                       height: 25,
                     ),
                     PrimaryButton(
-                      text: 'Sign in',
-                      press: () {
-                        login(context);
+                      text: 'Submit',
+                      press: () async {
+                        createRecord(context);
                       },
                       color: kPrimaryColor,
                       textColor: inputBackgroundColor,

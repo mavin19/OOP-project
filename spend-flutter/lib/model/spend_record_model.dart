@@ -4,16 +4,16 @@ part 'spend_record_model.g.dart';
 
 @JsonSerializable(createToJson: false)
 class SpendRecordModel {
-  String id;
+  int id;
   String item;
-  String cost;
-  DateTime created_at;
+  double cost;
+  DateTime createdAt;
 
   SpendRecordModel(
     this.id,
     this.item,
     this.cost,
-    this.created_at,
+    this.createdAt,
   );
 
   factory SpendRecordModel.fromJson(Map<String, dynamic> json) =>

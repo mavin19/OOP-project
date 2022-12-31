@@ -8,7 +8,7 @@ import 'package:spendflutter/Service/share_pref_service.dart';
 @module
 abstract class NetworkRegisterModule {
   String getContentApiBaseUrl() {
-    return 'http://192.168.0.119:8080';
+    return 'http://192.168.0.119:8081';
   }
 
   // ApiService getApiService (Dio dio, String baseUrl) {

@@ -26,7 +26,7 @@ class RoundInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
-        style: TextStyle(color: color,fontSize: 14),
+        style: TextStyle(color: color, fontSize: 14),
         keyboardType: type,
         onChanged: onChanged,
         maxLines: maxLine,
